@@ -38,7 +38,7 @@ func (s *Strand) NextMesh() {
 
 // end the strand by finishing up the response and request
 func (s *Strand) E() {
-	e, r := s.Parent.RouteDest.Send()
+	e, r := s.Parent.RouteDest.Send(s.R.Body, s.R.Header)
 	if e != nil {
 		log.Fatalln(e)
 	}
