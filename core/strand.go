@@ -1,22 +1,11 @@
-package fabric
+package core
 
 import (
 	"fmt"
 	"io"
 	"log"
-	"mesh/core/mesh"
-	"mesh/core/server"
 	"net/http"
 )
-
-// Fabric struct
-type Fabric struct {
-	Meshes    mesh.Registry
-	Path      string
-	RouteDest server.API
-	uid       string
-	meshCount uint
-}
 
 // Strand struct initialized after a new connection
 type Strand struct {
@@ -29,9 +18,9 @@ type Strand struct {
 
 // Runs the next mesh
 func (s *Strand) NextMesh() {
-	if s.currentMesh != s.Parent.meshCount-1 && !*s.Killed {
+	if s.currentMesh != s.Parent.MeshCount-1 && !*s.Killed {
 		rMesh := s.Parent.Meshes[s.currentMesh]
-		rMesh.Run(mesh.Input{Re: s.R, Kill: s.Killed})
+		rMesh.Run(MeshInput{Re: s.R, Strand: s})
 		s.currentMesh++
 	}
 }

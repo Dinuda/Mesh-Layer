@@ -1,14 +1,13 @@
-package server
+package core
 
 import (
 	"io"
-	"mesh/core/ip"
 	"net/http"
 )
 
 type API struct {
 	Route string
-	Ip    *ip.Ip
+	Ip    *Ip
 	Code  string
 }
 
