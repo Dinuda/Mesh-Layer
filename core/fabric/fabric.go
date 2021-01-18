@@ -9,6 +9,7 @@ import (
 	"net/http"
 )
 
+// Fabric struct
 type Fabric struct {
 	Meshes    mesh.Registry
 	Path      string
@@ -17,6 +18,7 @@ type Fabric struct {
 	meshCount uint
 }
 
+// Strand struct initialized after a new connection
 type Strand struct {
 	currentMesh uint
 	Parent      *Fabric
@@ -25,6 +27,7 @@ type Strand struct {
 	Killed      *bool
 }
 
+// Runs the next mesh
 func (s *Strand) NextMesh() {
 	if s.currentMesh != s.Parent.meshCount-1 && !*s.Killed {
 		rMesh := s.Parent.Meshes[s.currentMesh]
@@ -33,6 +36,7 @@ func (s *Strand) NextMesh() {
 	}
 }
 
+// end the strand by finishing up the response and request
 func (s *Strand) E() {
 	e, r := s.Parent.RouteDest.Send()
 	if e != nil {
@@ -44,6 +48,7 @@ func (s *Strand) E() {
 	}
 }
 
+// returns the mesh count of the parent fabric
 func (s Strand) GetMeshCount() uint {
 	return uint(len(s.Parent.Meshes))
 }
