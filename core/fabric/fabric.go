@@ -22,18 +22,19 @@ type Strand struct {
 	Parent      *Fabric
 	Rw          *http.ResponseWriter
 	R           *http.Request
+	Killed      *bool
 }
 
 func (s *Strand) NextMesh() {
-	if s.currentMesh != s.Parent.meshCount-1 {
+	if s.currentMesh != s.Parent.meshCount-1 && !*s.Killed {
 		rMesh := s.Parent.Meshes[s.currentMesh]
-		rMesh.Run(mesh.Input{Re: s.R})
+		rMesh.Run(mesh.Input{Re: s.R, Kill: s.Killed})
 		s.currentMesh++
 	}
 }
 
 func (s *Strand) E() {
-	e, r := s.Parent.RouteDest.Send(mesh.Info{})
+	e, r := s.Parent.RouteDest.Send()
 	if e != nil {
 		log.Fatalln(e)
 	}

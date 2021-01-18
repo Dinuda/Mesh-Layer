@@ -2,7 +2,6 @@ package server
 
 import (
 	"mesh/core/ip"
-	"mesh/core/mesh"
 	"net/http"
 )
 
@@ -12,7 +11,7 @@ type API struct {
 	Code  string
 }
 
-func (api *API) Send(a mesh.Info) (error, *http.Response) {
+func (api *API) Send() (error, *http.Response) {
 	ipAddr := api.Ip.Address
 
 	client := &http.Client{}

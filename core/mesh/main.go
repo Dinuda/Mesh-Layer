@@ -8,7 +8,8 @@ type Mesh struct {
 }
 
 type Input struct {
-	Re *http.Request
+	Re   *http.Request
+	Kill *bool
 }
 
 type Info struct {
